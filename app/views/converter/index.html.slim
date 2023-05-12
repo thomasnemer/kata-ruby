@@ -1,6 +1,8 @@
 h1 La Banque Centrale point fr
-
-= form_with do |f|
+- if @errors&.any?
+  - @errors.each do |error|
+    = error.options[:message]
+= form_with(data: { turbo: 'false' }) do |f|
   div.field
     = f.label :source_currency
     br
@@ -15,5 +17,3 @@ h1 La Banque Centrale point fr
     = f.number_field :quantity
   div.actions
     = f.submit :convert
-  
-
