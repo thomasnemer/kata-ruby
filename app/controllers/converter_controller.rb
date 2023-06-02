@@ -7,6 +7,9 @@ class ConverterController < ApplicationController
   end
 
   def convert
+    if @errors.any?
+      @error_messages = @errors.errors.map { |error| error.options[:message] }
+    end
     # https://exchangerate.host/#/docs
     url = "https://api.exchangerate.host/convert?from=#{params['source_currency']}&to=#{params['target_currency']}&amount=#{params['quantity']}"
     uri = URI(url)
@@ -14,7 +17,7 @@ class ConverterController < ApplicationController
     response_obj = JSON.parse(response)
 
     # debugger
-    render :index
+    render :convert
   end
 
   def validate
@@ -31,6 +34,6 @@ class ConverterController < ApplicationController
   end
 
   def validate_currency(currency)
-    @errors.add :currency, :unknown_currency, message: "Currency #{currency} is not in EUR BTC DOGE USD YEN " unless currency in %w[EUR BTC DOGE USD YEN]
+    @errors.add :currency, :unknown_currency, message: "Currency #{currency} is not in EUR BTC DOGE USD YEN " unless %w[EUR BTC DOGE USD YEN].include? currency
   end
 end

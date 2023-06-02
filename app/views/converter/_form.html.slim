@@ -1,0 +1,16 @@
+h1 La Banque Centrale point fr
+= form_with(data: { turbo: 'false' }) do |f|
+  div.field
+    = f.label :source_currency
+    br
+    = f.text_field :source_currency
+  div.field
+    = f.label :target_currency
+    br
+    = f.text_field :target_currency
+  div.field
+    = f.label :quantity
+    br
+    = f.number_field :quantity
+  div.actions
+    = f.submit :convert
